@@ -1,0 +1,166 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --color-ink: #0b0f17;
+  --color-panel: #0f1520;
+  --color-panel-2: #151d2b;
+  --color-panel-3: #1c2637;
+  --color-line: #253044;
+  --color-line-2: #34415a;
+  --color-fog: #8592a8;
+  --color-mist: #c3ccda;
+  --color-snow: #eef2f8;
+  --color-gold: #e2b74a;
+  --color-gold-2: #f3d78a;
+  --color-cyan: #5fd3e6;
+  --color-moss: #3fb36f;
+  --color-sea: #2f6fd1;
+
+  --shadow-panel: 0 24px 60px -20px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  background: var(--color-ink);
+  color: var(--color-snow);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+body {
+  overflow: hidden;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-2) transparent;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* react-globe.gl hover tooltip */
+.scene-tooltip {
+  font-family: var(--font-sans) !important;
+  font-size: 12px !important;
+  color: var(--color-snow) !important;
+  background: rgba(15, 21, 32, 0.92) !important;
+  border: 1px solid var(--color-line-2);
+  border-radius: 8px;
+  padding: 10px 12px !important;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+  max-width: 260px;
+}
+
+.tip-title {
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: var(--color-gold-2);
+}
+.tip-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 14px;
+  row-gap: 2px;
+}
+.tip-grid dt {
+  color: var(--color-fog);
+}
+.tip-grid dd {
+  margin: 0;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+.tip-note {
+  margin-top: 6px;
+  color: var(--color-fog);
+  font-size: 11px;
+}
+
+.pin {
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.7));
+}
+.pin-pulse {
+  transform-origin: 50% 100%;
+  animation: pin-bob 1.6s ease-in-out infinite;
+}
+@keyframes pin-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pin-pulse {
+    animation: none;
+  }
+}
+
+.hairline {
+  border-color: var(--color-line);
+}
+
+.panel-glass {
+  background: color-mix(in srgb, var(--color-panel) 88%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* In the components layer so plain utilities on the element can override these. */
+@layer components {
+  .segment {
+    @apply inline-flex rounded-full border border-line bg-panel-2/80 p-0.5;
+  }
+  .segment button {
+    @apply rounded-full px-3 py-1 text-xs font-medium whitespace-nowrap text-fog transition-colors;
+  }
+  .segment button[aria-pressed='true'] {
+    @apply bg-gold text-ink;
+  }
+  .segment button:not([aria-pressed='true']):hover {
+    @apply text-snow;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10.5px] font-medium tracking-wide uppercase;
+  }
+
+  .row-btn {
+    @apply flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2 text-left transition-colors hover:bg-panel-3 focus-visible:bg-panel-3;
+  }
+  .row-btn[aria-current='true'] {
+    @apply bg-panel-3 ring-1 ring-gold/60;
+  }
+
+  .field {
+    @apply w-full rounded-lg border border-line bg-panel-2 px-3 py-2 text-sm text-snow placeholder:text-fog focus:border-gold focus:outline-none;
+  }
+}
