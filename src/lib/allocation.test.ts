@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { TIERS } from '../data/tiers'
 import { COUNTRIES } from '../data/countries'
 import { PERSONAS } from '../data/personas'
+import { RICHEST } from '../data/richest'
 import {
   EARTH_LAND_KM2,
   circleRadiusKm,
@@ -78,6 +79,14 @@ describe('data integrity', () => {
       const c = COUNTRIES.find((x) => x.iso3 === src.iso3)
       expect(c, p.id).toBeDefined()
       if (src.stat === 'median') expect(c!.median, p.id).not.toBeNull()
+    }
+  })
+
+  it('every wealthiest-individual entry points at a country in the table', () => {
+    for (const [iso3, r] of Object.entries(RICHEST)) {
+      expect(COUNTRIES.some((c) => c.iso3 === iso3), iso3).toBe(true)
+      expect(r.wealthUsd, iso3).toBeGreaterThanOrEqual(1e9)
+      expect(r.name.length, iso3).toBeGreaterThan(0)
     }
   })
 

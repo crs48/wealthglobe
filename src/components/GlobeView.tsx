@@ -3,6 +3,7 @@ import Globe, { type GlobeMethods } from 'react-globe.gl'
 import type { Feature, Polygon } from 'geojson'
 import { COUNTRIES, COUNTRY_BY_ISO3, type Country } from '../data/countries'
 import { PEOPLE } from '../data/people'
+import { RICHEST } from '../data/richest'
 import type { Stat } from '../data/personas'
 import { formatArea, formatRatio, formatUsd, landClaimKm2 } from '../lib/allocation'
 import { COMPARE, GOLD, NO_DATA, STROKE, metricScale, withAlpha } from '../lib/colors'
@@ -59,6 +60,7 @@ function tooltipHtml(c: Country | undefined, name: string, stat: Stat): string {
   }
   const claimMean = landClaimKm2(c.mean)
   const claimMedian = c.median === null ? null : landClaimKm2(c.median)
+  const richest = RICHEST[c.iso3]
   const rows: [string, string][] = [
     ['Mean / adult', formatUsd(c.mean)],
     ['Median / adult', c.median === null ? '—' : formatUsd(c.median)],
@@ -67,6 +69,8 @@ function tooltipHtml(c: Country | undefined, name: string, stat: Stat): string {
     ['Mean-adult claim', formatArea(claimMean)],
     ['Median-adult claim', claimMedian === null ? '—' : formatArea(claimMedian)],
     ['Mean ÷ median', c.median === null ? '—' : formatRatio(c.mean / c.median)],
+    ['Wealthiest individual', richest ? formatUsd(richest.wealthUsd, { compact: true }) : 'none on Forbes list'],
+    ['Their claim', richest ? formatArea(landClaimKm2(richest.wealthUsd)) : '—'],
   ]
   const active = stat === 'mean' ? 'mean' : 'median'
   return (

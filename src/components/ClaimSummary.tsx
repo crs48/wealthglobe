@@ -1,5 +1,6 @@
 import { GitCompareArrows, X } from 'lucide-react'
 import { CONFIDENCE_HELP } from '../data/meta'
+import { RICHEST } from '../data/richest'
 import { STAT_LABEL, type ResolvedSubject } from '../lib/subjects'
 import {
   describeArea,
@@ -11,6 +12,7 @@ import {
   formatRatio,
   formatShare,
   formatUsd,
+  landClaimKm2,
   landShare,
   squareSideM,
 } from '../lib/allocation'
@@ -101,6 +103,15 @@ export function ClaimSummary({ subject }: { subject: ResolvedSubject }) {
           <>
             <Stat label="Adults" value={`${formatBigCount(subject.country.adults)}`} />
             <Stat label="Land area" value={formatArea(subject.country.landKm2)} />
+            {RICHEST[subject.country.iso3] ? (
+              <Stat
+                label="Wealthiest individual"
+                value={`${formatUsd(RICHEST[subject.country.iso3].wealthUsd, { compact: true })} → ${formatArea(landClaimKm2(RICHEST[subject.country.iso3].wealthUsd))}`}
+                hint={`${RICHEST[subject.country.iso3].name}, Forbes list`}
+              />
+            ) : (
+              <Stat label="Wealthiest individual" value="none on Forbes list" hint="No citizen of this country appears on the Forbes billionaire list." />
+            )}
           </>
         )}
       </dl>
