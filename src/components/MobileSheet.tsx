@@ -55,7 +55,7 @@ export function MobileSheet() {
     <motion.section
       aria-label="Inspector"
       className="panel-glass absolute inset-x-0 top-0 z-30 flex flex-col rounded-t-2xl border-t border-line shadow-panel"
-      style={{ y, height: h, touchAction: 'none' }}
+      style={{ y, height: h - snapY(sheet, h), touchAction: 'none' }}
       drag="y"
       dragConstraints={{ top: snapY('full', h), bottom: snapY('peek', h) }}
       dragElastic={0.05}
@@ -70,7 +70,7 @@ export function MobileSheet() {
       >
         <span className="h-1.5 w-10 rounded-full bg-line-2" aria-hidden />
       </button>
-      <div className="min-h-0 flex-1" style={{ height: h - snapY(sheet, h) - 28 }}>
+      <div className="min-h-0 flex-1">
         <InspectorBody />
       </div>
     </motion.section>

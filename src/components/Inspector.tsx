@@ -75,9 +75,10 @@ export function InspectorBody() {
           <CustomNetWorth compact />
         </div>
       )}
-      <p className="shrink-0 border-t border-line px-4 py-2 text-[10.5px] leading-snug text-fog">
-        {META.wealthVintage} ({META.ubsMarkets} markets, ~{Math.round(META.sampleCoverage * 100)}% of world wealth) · {META.databookVintage} for the rest · area ≠ value · billionaire numbers move daily.
-      </p>
+      <footer className="shrink-0 border-t border-line px-4 py-2 text-[10.5px] leading-snug text-fog">
+        <p>{META.wealthVintage} ({META.ubsMarkets} markets, ~{Math.round(META.sampleCoverage * 100)}% of world wealth) · {META.databookVintage} for the rest · area ≠ value · billionaire numbers move daily.</p>
+        <a href="https://crs.land/" className="mt-1 inline-flex min-h-8 items-center text-mist underline underline-offset-4 hover:text-snow">More experiments at crs.land ↗</a>
+      </footer>
     </div>
   )
 }
